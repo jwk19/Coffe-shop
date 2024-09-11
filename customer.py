@@ -1,25 +1,17 @@
-from order import Order
-
 class Customer:
     def __init__(self, name):
-        self._name = name
+        if not isinstance(name, str) or not (1 <= len(name) <= 15):
+            raise ValueError("Customer name must be a string between 1 and 15 characters.")
+        self.name = name
+        self._orders = []  # To Store orders for this customer
 
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, value):
-        if isinstance(value, str) and 1 <= len(value) <= 15:
-            self._name = value
-        else:
-            raise ValueError("Name must be a string between 1 and 15 characters.")
+    def place_order(self, coffee, price):
+        order = order(self, coffee, price)
+        self._orders.append(order)
+        return order
 
     def orders(self):
-        return [order for order in Order.all_orders if order.customer == self]
+        return self._orders
 
     def coffees(self):
-        return list(set(order.coffee for order in self.orders()))
-
-    def create_order(self, coffee, price):
-        return Order(self, coffee, price)
+        return list(set([order.coffee for order in self._orders]))  # Unique coffees

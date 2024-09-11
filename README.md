@@ -1,77 +1,129 @@
-# Coffee Shop Domain 
+Coffee Shop
+===========================
 
-## Overview
+Project Overview
+----------------
 
-This project models a simple coffee shop domain using Python classes. The domain consists of three primary classes: `Customer`, `Coffee`, and `Order`. The relationships between these classes are:
+This project models a simple coffee shop using Object-Oriented Programming (OOP) principles in Python. The domain consists of three main entities: `Customer`, `Coffee`, and `Order`. The relationships between these entities are modeled through classes and methods that allow for creating customers, placing orders, and associating those orders with coffees.
 
-- A `Customer` can have many `Order`s.
-- A `Coffee` can have many `Order`s.
-- An `Order` belongs to both a `Customer` and a `Coffee`
+The project also includes automated tests using `pytest` to ensure that the methods and object relationships work as expected.
 
-### Classes
-
-1. **Customer**
-   - Represents a customer of the coffee shop.
-   - Each customer is initialized with a name.
-   - Can create orders, view their past orders, and see the coffees they've ordered.
-
-2. **Coffee**
-   - Represents a type of coffee offered by the shop.
-   - Each coffee is initialized with a name.
-   - Can track orders for that specific coffee and view the customers who have ordered it.
-   - Provides methods to count the total number of orders and calculate the average price of the orders.
-
-3. **Order**
-   - Represents an order placed by a customer for a specific coffee.
-   - Each order is initialized with a customer, a coffee, and a price.
-   - Keeps track of all orders placed across all customers and coffees.
-
-## Implementation Details
-
-### Customer Class
-
-#### Attributes
-
-- **`name`**: The name of the customer (string). The name must be between 1 and 15 characters long. The name can be updated after instantiation.
-
-#### Methods
-
-- **`orders()`**: Returns a list of all orders placed by the customer.
-- **`coffees()`**: Returns a unique list of all the coffees the customer has ordered.
-- **`create_order(coffee, price)`**: Creates a new order for the given coffee at the specified price.
-
-### Coffee Class
-
-#### Attributes
-
-- **`name`**: The name of the coffee (string). The name must be at least 3 characters long and cannot be changed after instantiation.
-
-#### Methods
-
-- **`orders()`**: Returns a list of all orders that include this coffee.
-- **`customers()`**: Returns a unique list of all customers who have ordered this coffee.
-- **`num_orders()`**: Returns the total number of orders for this coffee.
-- **`average_price()`**: Returns the average price of this coffee based on the orders. Returns 0 if there are no orders.
-
-### Order Class
-
-#### Attributes
-
-- **`customer`**: The customer who placed the order (instance of `Customer`).
-- **`coffee`**: The coffee being ordered (instance of `Coffee`).
-- **`price`**: The price of the order (float). The price must be between 1.0 and 10.0 and cannot be changed after instantiation.
-
-#### Class Variables
-
-- **`all_orders`**: A list of all orders placed.
-
-### Notes on Variable Scope
-
-- Instance variables (e.g., `self.name`, `self.customer`) are used to store the attributes specific to each instance of a class.
-- Class variables (e.g., `Order.all_orders`) are used to maintain a shared state across all instances of a class.
-
-## Known Issues
-
-- **Recursive calls**: In the current implementation, attempting to access the `name`, `customer`, or `coffee` attributes within the getter methods leads to recursion errors. This is because the methods are calling themselves instead of accessing the instance variable directly.
+Folder Structure
+----------------
 
 
+`coffe_shop/
+│
+├── customer.py        # Customer class implementation
+├── coffee.py          # Coffee class implementation
+├── order.py           # Order class implementation
+│
+├── tests/             # Test files directory
+│   ├── test_customer.py  # Unit tests for Customer class
+│   ├── test_coffee.py    # Unit tests for Coffee class
+│   └── test_order.py     # Unit tests for Order class
+│
+├── README.md          # This README file
+├── LICENSE            # License for the project
+└── debug.py           # Optional script for quick debugging`
+
+Classes and Relationships
+-------------------------
+
+### Customer Class (`customer.py`)
+
+The `Customer` class models a customer in the coffee shop.
+
+**Attributes**:
+
+-   `name`: The name of the customer (1 to 15 characters).
+-   `_orders`: A private list to store the orders placed by the customer.
+
+**Methods**:
+
+-   `place_order(coffee, price)`: Creates an order and associates it with the customer.
+-   `orders()`: Returns a list of the customer's orders.
+-   `coffees()`: Returns a unique list of coffees the customer has ordered.
+
+### Coffee Class (`coffee.py`)
+
+The `Coffee` class models the coffee available in the shop.
+
+**Attributes**:
+
+-   `name`: The name of the coffee (minimum 3 characters).
+-   `_orders`: A list to store orders associated with this coffee.
+
+**Methods**:
+
+-   `orders()`: Returns all orders for that coffee.
+-   `num_orders()`: Returns the total number of orders for that coffee.
+-   `average_price()`: Returns the average price of orders for the coffee.
+
+### Order Class (`order.py`)
+
+The `Order` class models an individual order placed by a customer for a coffee.
+
+**Attributes**:
+
+-   `customer`: The `Customer` instance who placed the order.
+-   `coffee`: The `Coffee` instance that was ordered.
+-   `price`: The price of the order (between 1.0 and 10.0).
+
+**Methods**:
+
+-   `all()`: Returns all orders.
+
+Tests
+-----
+
+### Running Tests
+
+To run the tests, ensure you have `pytest` installed. Navigate to your project folder and run:
+
+
+`pytest`
+
+The test suite is organized in the `tests/` directory with individual test files for the `Customer`, `Coffee`, and `Order` classes.
+
+### Test Coverage
+
+-   **test_customer.py**: Tests customer creation, name validation, and placing orders.
+-   **test_coffee.py**: Tests coffee creation and name validation.
+-   **test_order.py**: Tests order creation, customer and coffee association, and price validation.
+
+Installation
+------------
+
+1.  **Clone the repository**:
+
+
+
+`git clone https://github.com/jwk19/Coffe-shop`
+
+1.  **Navigate into the project directory**:
+
+
+`cd coffe_shop`
+
+1.  **Set up a virtual environment** (optional but recommended):
+
+
+
+`pipenv install
+pipenv shell`
+
+1.  **Install pytest for testing**:
+
+
+`pipenv install pytest`
+
+Debugging
+---------
+
+For quick interactive testing, you can use the `debug.py` file. This file includes example code to create instances of `Customer`, `Coffee`, and `Order` to manually test the behavior of your classes.
+
+License
+-------
+
+This project is open-source and available under the MIT License. See the `LICENSE` file for more details.
